@@ -10,7 +10,7 @@ MotionHistogram::~MotionHistogram()
 {
 }
 
-void MotionHistogram::addMotionVector(Point2f a, Point2f b)
+void MotionHistogram::addMotionVector(Point a, Point b)
 {
 	float x = b.x - a.x;
 	float y = a.y - b.y;
@@ -43,9 +43,33 @@ void MotionHistogram::addMotionVector(Point2f a, Point2f b)
 	}
 }
 
-int MotionHistogram::valueAt(int index)
+float MotionHistogram::valueAt(int index)
 {
 	// TODO: check bounds
 
 	return bins[index];
+}
+
+void MotionHistogram::normalize(float factor)
+{
+	if (factor > 0)
+	{
+		// HACK: hardcoded value
+		for (int i = 0; i < 13; i++)
+		{
+			bins[i] = (float) bins[i] / factor;
+		}
+	}
+}
+
+void MotionHistogram::print()
+{
+	cout << "[ ";
+
+	for (int i = 0; i < 13; i++)
+	{
+		cout << setprecision(4) << bins[i] << " ";
+	}
+
+	cout << "]" << endl;
 }

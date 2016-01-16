@@ -20,6 +20,11 @@ int Shot::get_end()
 	return this->end;
 }
 
+int Shot::get_start()
+{
+	return this->start;
+}
+
 MotionHistogram& Shot::get_histogram()
 {
 	return this->histogram;

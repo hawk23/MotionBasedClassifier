@@ -10,12 +10,13 @@ public:
 	void set_histogram(MotionHistogram histogram);
 	MotionHistogram& get_histogram();
 	int get_end();
+	int get_start();
 	int get_jumpOff();
 
 private:
 	int start;
 	int end;
-	bool jumpOff;
+	int jumpOff;
 	MotionHistogram histogram;
 };
 

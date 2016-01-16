@@ -37,19 +37,20 @@ int main(int argc, char **argv)
 	{
 		for (int k = 0; k < numBins; k++) 
 		{
-			int value = shots[i].get_histogram().valueAt(k);
-			trainingDataMat.at<int>(i, k) = value;
+			float value = shots[i].get_histogram().valueAt(k);
+			trainingDataMat.at<float>(i, k) = value;
 		}
 
-		labelsMat.at<int>(i) = shots[i].get_jumpOff();
+		int label = shots[i].get_jumpOff();
+		labelsMat.at<int>(i) = label;
 	}
 
 	// Train the SVM with the first part of data (i.e. 80%)
 	Ptr<SVM> svm = SVM::create();
 	svm->setType(SVM::C_SVC);
 	svm->setKernel(SVM::LINEAR);
-	// svm->setTermCriteria(TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 4, 1e-3));
-	svm->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 10, 1e-3));
+	// svm->setTermCriteria(TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 1000, 1e-3));
+	svm->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 1000, 1e-6));
 	svm->train(trainingDataMat, ROW_SAMPLE, labelsMat);
 
 	// Test the SVM with the second part of data (i.e. 20%)
@@ -61,10 +62,11 @@ int main(int argc, char **argv)
 
 		for (int k = 0; k < numBins; k++) 
 		{
-			sampleHist.at<int>(0, k) = shots[i].get_histogram().valueAt(k);
+			float value = shots[i].get_histogram().valueAt(k);
+			sampleHist.at<float>(0, k) = value;
 		}
 
-		int response = (int)svm->predict(sampleHist);
+		float response = svm->predict(sampleHist);
 
 		cout << "correct: " << shots[i].get_jumpOff()<< "\t-> response: " << response << endl;
 		if (response == shots[i].get_jumpOff()) 

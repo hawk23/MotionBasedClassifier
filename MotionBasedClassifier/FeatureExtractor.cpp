@@ -13,6 +13,8 @@ FeatureExtractor::~FeatureExtractor()
 
 void FeatureExtractor::extract()
 {
+	cout << "extracting features for every shot." << endl;
+
 	// reads the ground truth and creates Shot objects
 	readGroundTruth();
 
@@ -29,8 +31,9 @@ void FeatureExtractor::extract()
 
 	int count = 0;
 	Mat fullframe, frame, gray, prevFrame;
-	int resizeFactor = 1;
+	int resizeFactor = 2;
 
+	int pointCount = 0;
 	int currentShot = 0;
 	MotionHistogram currentHistogram;
 
@@ -46,8 +49,8 @@ void FeatureExtractor::extract()
 
 		// maximum number of points returned
 		int maxCorners = 400;
-		double qualityLevel = 0.01;
-		double minDistance = 10.; // minDistance – The minimum possible Euclidean distance between the returned corners
+		double qualityLevel = 0.001;
+		double minDistance = 10.0; // minDistance – The minimum possible Euclidean distance between the returned corners
 
 		Mat cloned = gray.clone();
 		cv::goodFeaturesToTrack(cloned, currFeatures, maxCorners, qualityLevel, minDistance);
@@ -65,7 +68,16 @@ void FeatureExtractor::extract()
 		{
 			if (status[i] != 0)
 			{
-				currentHistogram.addMotionVector(prevFeatures[i], currFeatures[i]);
+				pointCount++;
+
+				Point pt1(ceil(prevFeatures[i].x), ceil(prevFeatures[i].y));
+				Point pt2(ceil(currFeatures[i].x), ceil(currFeatures[i].y));
+
+				currentHistogram.addMotionVector(pt1, pt2);
+
+				// visualize result:
+				// line(frame, pt1, pt2, Scalar(255, 255, 255));
+				// imshow("Frame", frame);
 			}
 		}
 
@@ -76,6 +88,13 @@ void FeatureExtractor::extract()
 		// check if next shot is finished
 		if (frameNumber == shots[currentShot].get_end())
 		{
+			// normalize histogram
+			// currentHistogram.normalize(shots[currentShot].get_end() - shots[currentShot].get_start());
+			currentHistogram.normalize(pointCount);
+			pointCount = 0;
+			currentHistogram.print();
+			// cout << ".";
+
 			// save hist to shot
 			shots[currentShot].set_histogram(currentHistogram);
 
@@ -91,9 +110,11 @@ void FeatureExtractor::extract()
 				break;
 			}
 		}
-
+		// waitKey(10);
 		frameNumber++;
 	}
+
+	cout << endl;
 
 	//close VideoCapture etc.
 	capture.release();

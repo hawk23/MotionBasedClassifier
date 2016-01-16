@@ -2,7 +2,8 @@
 
 #include <opencv2\opencv.hpp>
 #include <math.h>
-
+#include <iostream>
+#include <iomanip>
 
 using namespace cv;
 using namespace std;
@@ -21,11 +22,13 @@ public:
 	x: x component of the vector
 	y: y component of the vector
 	*/
-	void addMotionVector(Point2f a, Point2f b);
+	void addMotionVector(Point a, Point b);
 
-	int valueAt(int index);
+	float valueAt(int index);
+	void normalize(float factor);
+	void print();
 
 private:
-	int bins[13] = {0};
+	float bins[13] = {0};
 };
 
