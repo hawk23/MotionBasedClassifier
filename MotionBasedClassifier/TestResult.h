@@ -5,8 +5,9 @@ public:
 	TestResult();
 	~TestResult();
 
-	int correctResults;
-	int falseResults;
-	int missedResults;
+	int truePositive;
+	int falsePositive;
+	int trueNegative;
+	int falseNegative;
 };
 

@@ -2,7 +2,7 @@
 #include "TestResult.h"
 
 
-TestResult::TestResult() : correctResults(0), falseResults(0), missedResults(0)
+TestResult::TestResult() : truePositive(0), falsePositive(0), trueNegative(0), falseNegative(0)
 {
 }
 

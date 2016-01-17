@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "PerformanceMeasure.h"
 
-float PerformanceMeasure::computeRecall(int correctResults, int missedResults)
+float PerformanceMeasure::computeRecall(int truePositive, int falseNegative)
 {
-	if (correctResults + missedResults > 0)
+	if (truePositive + falseNegative > 0)
 	{
-		return (float)correctResults / ((float)correctResults + (float)missedResults);
+		return (float)truePositive / ((float)truePositive + (float)falseNegative);
 	}
 	else
 	{
@@ -14,11 +14,11 @@ float PerformanceMeasure::computeRecall(int correctResults, int missedResults)
 
 }
 
-float PerformanceMeasure::computePrecision(int correctResults, int falseResults)
+float PerformanceMeasure::computePrecision(int truePositive, int falsePositive)
 {
-	if (correctResults + falseResults > 0)
+	if (truePositive + falsePositive > 0)
 	{
-		return (float)correctResults / ((float)correctResults + (float)falseResults);
+		return (float)truePositive / ((float)truePositive + (float)falsePositive);
 	}
 	else
 	{
@@ -27,10 +27,10 @@ float PerformanceMeasure::computePrecision(int correctResults, int falseResults)
 
 }
 
-float PerformanceMeasure::computeF1(int correctResults, int falseResults, int missedResults)
+float PerformanceMeasure::computeF1(int truePositive, int falsePositive, int falseNegative)
 {
-	float r = computeRecall(correctResults, missedResults);
-	float p = computePrecision(correctResults, falseResults);
+	float r = computeRecall(truePositive, falseNegative);
+	float p = computePrecision(truePositive, falsePositive);
 
 	if (p + r > 0)
 	{
@@ -40,4 +40,9 @@ float PerformanceMeasure::computeF1(int correctResults, int falseResults, int mi
 	{
 		return 0;
 	}
+}
+
+float PerformanceMeasure::computeAccuracy(int truePositive, int falsePositive, int trueNegative, int falseNegative)
+{
+	return (float) (truePositive + trueNegative) / (float) (truePositive + trueNegative + falsePositive + falseNegative);
 }

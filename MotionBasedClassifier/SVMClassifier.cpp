@@ -43,31 +43,37 @@ void SVMClassifier::test(Mat testData, Mat testLabels)
 		if (correctResponse == 1 && response == 1)
 		{
 			// true positives
-			testResult.correctResults++;
+			testResult.truePositive++;
 		}
 		else if (correctResponse == 0 && response == 1)
 		{
 			// false positives
-			testResult.falseResults++;
+			testResult.falsePositive++;
 		}
-
-		if (correctResponse == 1 && response == 0)
+		else if (correctResponse == 1 && response == 0)
 		{
 			// false negatives
-			testResult.missedResults++;
+			testResult.falseNegative++;
+		}
+		else if (correctResponse == 0 && response == 0)
+		{
+			// true negatives
+			testResult.trueNegative++;
 		}
 	}
 }
 
 void SVMClassifier::printPerformance(int foldNumber)
 {
-	float precision		= PerformanceMeasure::computePrecision(testResult.correctResults, testResult.falseResults);
-	float recall		= PerformanceMeasure::computeRecall(testResult.correctResults, testResult.missedResults);
-	float f1			= PerformanceMeasure::computeF1(testResult.correctResults, testResult.falseResults, testResult.missedResults);
+	float precision		= PerformanceMeasure::computePrecision(testResult.truePositive, testResult.falsePositive);
+	float recall		= PerformanceMeasure::computeRecall(testResult.truePositive, testResult.falseNegative);
+	float f1			= PerformanceMeasure::computeF1(testResult.truePositive, testResult.falsePositive, testResult.falseNegative);
+	float accuracy		= PerformanceMeasure::computeAccuracy(testResult.truePositive, testResult.falsePositive, testResult.trueNegative, testResult.falseNegative);
 
 	cout << "Test Result for fold " << foldNumber << endl;
 	cout << "Precision:\t"			<< setprecision(3) << precision <<endl;
 	cout << "Recall:\t\t"			<< setprecision(3) << recall << endl;
 	cout << "F1:\t\t"				<< setprecision(3) << f1 << endl;
+	cout << "accuracy:\t"			<< setprecision(3) << accuracy << endl;
 	cout << "------------------------------------" << endl;
 }
