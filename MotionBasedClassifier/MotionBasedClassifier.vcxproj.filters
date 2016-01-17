@@ -33,6 +33,12 @@
     <ClInclude Include="Shot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SVMClassifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossValidationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Shot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SVMClassifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossValidationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

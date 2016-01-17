@@ -160,13 +160,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CrossValidationManager.h" />
     <ClInclude Include="FeatureExtractor.h" />
     <ClInclude Include="MotionHistogram.h" />
     <ClInclude Include="Shot.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SVMClassifier.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CrossValidationManager.cpp" />
     <ClCompile Include="FeatureExtractor.cpp" />
     <ClCompile Include="MotionBasedClassifier.cpp" />
     <ClCompile Include="MotionHistogram.cpp" />
@@ -177,6 +180,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SVMClassifier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\oberstdorf08small.mp4" />
