@@ -18,9 +18,6 @@ using namespace std;
 using namespace cv;
 using namespace cv::ml;
 
-float TRAIN_PCT = 0.8;
-int numBins = 13; // HACK
-
 int main(int argc, char **argv)
 {
 	// extract Features and create Shot objects holding MotionHistograms and additional info about the shot
@@ -28,19 +25,24 @@ int main(int argc, char **argv)
 	extractor.extract();
 
 	// create datasets
-	Mat							trainingData;
-	Mat							trainingLabels;
-	Mat							testData;
-	Mat							testLabels;
+	Mat							trainingData, trainingLabels, testData, testLabels;
 	CrossValidationManager		cvManager		= CrossValidationManager (extractor);
 
-	cvManager.getFold			(5, trainingData, testData, trainingLabels, testLabels);
+	/**
+	 * start 5-fold cross validation of our feature extractor and classifier
+	 */
 
-	// create classifier
-	SVMClassifier				classifier		= SVMClassifier ();
+	for (int foldNumber = 1; foldNumber <= 5; foldNumber++)
+	{
+		cvManager.getFold(foldNumber, trainingData, testData, trainingLabels, testLabels);
 
-	classifier.train			(trainingData, trainingLabels);
-	classifier.test				(testData, testLabels);
+		// create classifier
+		SVMClassifier				classifier = SVMClassifier();
+
+		classifier.train(trainingData, trainingLabels);
+		classifier.test(testData, testLabels);
+		classifier.printPerformance(foldNumber);
+	}
 
 	return 0;
 }

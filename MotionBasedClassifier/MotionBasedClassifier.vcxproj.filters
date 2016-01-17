@@ -39,12 +39,15 @@
     <ClInclude Include="CrossValidationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PerformanceMeasure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MotionBasedClassifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MotionHistogram.cpp">
@@ -60,6 +63,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CrossValidationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceMeasure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

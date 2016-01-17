@@ -27,8 +27,7 @@ void SVMClassifier::train(Mat trainingData, Mat trainingLabels)
 
 void SVMClassifier::test(Mat testData, Mat testLabels)
 {
-	// Test the SVM with the second part of data (i.e. 20%)
-	double correct = 0;
+	testResult = TestResult();
 
 	for (int i = 0; i < testData.rows; i++)
 	{
@@ -38,15 +37,37 @@ void SVMClassifier::test(Mat testData, Mat testLabels)
 		int response				= (int) svm->predict(sampleHist);
 		int correctResponse			= testLabels.at<int>(i, 0);
 
-		cout << "correct: " << correctResponse << "\t-> response: " << response << endl;
+		// cout << "correct: " << correctResponse << "\t-> response: " << response << endl;
 
-		if (response == correctResponse)
+		// evalute performance
+		if (correctResponse == 1 && response == 1)
 		{
-			correct++;
+			// true positives
+			testResult.correctResults++;
+		}
+		else if (correctResponse == 0 && response == 1)
+		{
+			// false positives
+			testResult.falseResults++;
+		}
+
+		if (correctResponse == 1 && response == 0)
+		{
+			// false negatives
+			testResult.missedResults++;
 		}
 	}
+}
 
-	cout << "correct: " << correct << endl;
+void SVMClassifier::printPerformance(int foldNumber)
+{
+	float precision		= PerformanceMeasure::computePrecision(testResult.correctResults, testResult.falseResults);
+	float recall		= PerformanceMeasure::computeRecall(testResult.correctResults, testResult.missedResults);
+	float f1			= PerformanceMeasure::computeF1(testResult.correctResults, testResult.falseResults, testResult.missedResults);
 
-	// TODO: Precision, Recall, F1
+	cout << "Test Result for fold " << foldNumber << endl;
+	cout << "Precision:\t"			<< setprecision(3) << precision <<endl;
+	cout << "Recall:\t\t"			<< setprecision(3) << recall << endl;
+	cout << "F1:\t\t"				<< setprecision(3) << f1 << endl;
+	cout << "------------------------------------" << endl;
 }

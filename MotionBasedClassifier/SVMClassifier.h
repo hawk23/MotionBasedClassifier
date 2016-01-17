@@ -1,6 +1,8 @@
 #include <opencv2\opencv.hpp>
 #include <iostream>
 #include <iomanip>
+#include "TestResult.h"
+#include "PerformanceMeasure.h"
 
 using namespace std;
 using namespace cv;
@@ -15,8 +17,10 @@ public:
 
 	void train(Mat trainingData, Mat trainingLabels);
 	void test(Mat testData, Mat testLabels);
+	void printPerformance(int foldNumber);
 
 private:
 	Ptr<SVM> svm;
+	TestResult testResult;
 };
 
